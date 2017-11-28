@@ -2,9 +2,9 @@
   "name": "i18n-scanner",
   "version": "0.1.0",
   "description": "Command-line tool for extracting translations from files.",
-  "main": "index.js",
+  "main": "src/index.js",
   "bin": {
-    "i18n-scanner": "./index.js"
+    "i18n": "./src/index.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -18,5 +18,35 @@
   "bugs": {
     "url": "https://github.com/rodu30/i18n-scanner/issues"
   },
-  "homepage": "https://github.com/rodu30/i18n-scanner#readme"
+  "homepage": "https://github.com/rodu30/i18n-scanner#readme",
+  "dependencies": {
+    "babel-traverse": "^6.26.0",
+    "babylon": "^6.18.0",
+    "commander": "^2.12.1",
+    "recursive-readdir": "^2.2.1"
+  },
+  "devDependencies": {
+    "babel-eslint": "^8.0.2",
+    "eslint": "^4.12.0",
+    "i18n-extract": "^0.5.1",
+    "prettier-eslint": "^8.2.2"
+  },
+  "eslintConfig": {
+    "parser": "babel-eslint",
+    "env": {
+      "browser": true
+    },
+    "rules": {
+      "comma-dangle": [
+        "error",
+        {
+          "arrays": "always-multiline",
+          "objects": "always-multiline",
+          "imports": "always-multiline",
+          "exports": "always-multiline",
+          "functions": "never"
+        }
+      ]
+    }
+  }
 }
