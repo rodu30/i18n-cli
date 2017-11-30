@@ -1,5 +1,6 @@
 const { parse } = require('babylon');
 const traverse = require('babel-traverse').default;
+const chalk = require('chalk');
 
 const noInformationTypes = ['CallExpression', 'Identifier', 'MemberExpression'];
 
@@ -14,7 +15,7 @@ function getMessage(node) {
     return '*'; // We can't extract anything.
   }
 
-  console.warn(`Unsupported message type: ${node.type}`);
+  console.warn(`${chalk.bold.red('Error')} Can't read unsupported message type: ${node.type}`);
 
   return null;
 }
