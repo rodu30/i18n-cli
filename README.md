@@ -1,4 +1,4 @@
-# i18n-scanner
+# i18n-cli
 
 Command-line interface to extract strings added with
 [i18n-kit](https://github.com/rodu30/i18n-kit/).

@@ -1,5 +1,5 @@
 {
-  "name": "i18n-scanner",
+  "name": "i18n-cli",
   "version": "0.1.0",
   "description": "Command-line tool for extracting translations from files.",
   "main": "src/index.js",
@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rodu30/i18n-scanner.git"
+    "url": "git+https://github.com/rodu30/i18n-cli.git"
   },
   "author": "Roman Duhr <roman.duhr@meplato.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/rodu30/i18n-scanner/issues"
+    "url": "https://github.com/rodu30/i18n-cli/issues"
   },
-  "homepage": "https://github.com/rodu30/i18n-scanner#readme",
+  "homepage": "https://github.com/rodu30/i18n-cli#readme",
   "dependencies": {
     "babel-traverse": "^6.26.0",
     "babylon": "^6.18.0",
