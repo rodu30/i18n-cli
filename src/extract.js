@@ -1,10 +1,18 @@
+// NOTE: most of this code is part of the '18n-extract' package (https://github.com/oliviertassinari/i18n-extract),
+// because most of it's functions were not needed and this one is used it in a slightly different way then intended
+// the package is not included as dependency
+
 const { parse } = require('babylon');
 const traverse = require('babel-traverse').default;
 const chalk = require('chalk');
 
 const noInformationTypes = ['CallExpression', 'Identifier', 'MemberExpression'];
 
-function getMessage(node) {
+/**
+ * Gets the message from provided node
+ * @param {object} node
+ */
+const getMessage = node => {
   if (node.type === 'StringLiteral') {
     return node.value;
   } else if (node.type === 'BinaryExpression' && node.operator === '+') {
@@ -18,8 +26,12 @@ function getMessage(node) {
   console.warn(`${chalk.bold.red('Error')} Can't read unsupported message type: ${node.type}`);
 
   return null;
-}
+};
 
+/**
+ * Gets the options for a message from provided node
+ * @param {object} node
+ */
 const getOptions = (node = {}) => {
   if (node.type === 'ObjectExpression') {
     return node.properties.reduce((obj, item) => {
@@ -34,8 +46,14 @@ const getOptions = (node = {}) => {
 const commentRegExp = /i18n-extract (.+)/;
 const commentIgnoreRegExp = /i18n-extract-disable-line/;
 
-const extract = (code, options = {}) => {
-  const { marker = 'i18n', keyLoc = 0 } = options;
+/**
+ * Takes the code and yields all messages from code using the babylon plugin
+ * (which parses stringified code to a specific object format from which all sorts of expressions can be retrieved)
+ * @param {string} code
+ * @param {object} options
+ */
+const extract = (code, options) => {
+  const { marker, keyLoc = 0 } = options;
 
   const ast = parse(code, {
     sourceType: 'module',
