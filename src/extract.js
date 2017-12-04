@@ -1,133 +1,63 @@
-// NOTE: most of this code is part of the '18n-extract' package (https://github.com/oliviertassinari/i18n-extract),
-// because most of it's functions were not needed and this one is used it in a slightly different way then intended
-// the package is not included as dependency
+const recursiveReaddir = require('recursive-readdir');
 
-const { parse } = require('babylon');
-const traverse = require('babel-traverse').default;
-const chalk = require('chalk');
-
-const noInformationTypes = ['CallExpression', 'Identifier', 'MemberExpression'];
+const extractMessages = require('./extractMessages');
+const parseMessages = require('./parseMessages');
+const { writeFile, readFile } = require('./fileIO');
+const { errorMsg, statusMsg, successMsg } = require('./formattedOutput');
 
 /**
- * Gets the message from provided node
- * @param {object} node
+ * Returns true if file suffix is 'js', 'ts' or 'jsx'
+ * @param {string} filename
+ * @returns {boolean}
  */
-const getMessage = node => {
-  if (node.type === 'StringLiteral') {
-    return node.value;
-  } else if (node.type === 'BinaryExpression' && node.operator === '+') {
-    return getMessage(node.left) + getMessage(node.right);
-  } else if (node.type === 'TemplateLiteral') {
-    return node.quasis.map(quasi => quasi.value.cooked).join('*');
-  } else if (noInformationTypes.includes(node.type)) {
-    return '*'; // We can't extract anything.
-  }
-
-  console.warn(`${chalk.bold.red('Error')} Can't read unsupported message type: ${node.type}`);
-
-  return null;
+const isJSFile = filename => {
+  const suffix = filename.split('.')[1];
+  return suffix === 'js' || suffix === 'jsx' || suffix === 'ts';
 };
 
 /**
- * Gets the options for a message from provided node
- * @param {object} node
+ * Extracts all messages and it's options that are passed as argument to a function
+ * with the provided name (default is 'i18n.translateMessage'),
+ * returns an array of arrays for every file as promise
+ * @param {array} files array of filenames within this directory
+ * @param {string} marker name of the searched function
+ * @returns {array} raw messages
  */
-const getOptions = (node = {}) => {
-  if (node.type === 'ObjectExpression') {
-    return node.properties.reduce((obj, item) => {
-      obj[item.key.name] = item.value.value;
-      return obj;
-    }, {});
-  }
-
-  return undefined;
-};
-
-const commentRegExp = /i18n-extract (.+)/;
-const commentIgnoreRegExp = /i18n-extract-disable-line/;
+const getMessagesFromFiles = (files, marker = 'i18n.translateMessage', hasOutput) =>
+  Promise.all(
+    files.map(file =>
+      readFile(file).then(data => {
+        if (hasOutput) console.log(`${statusMsg(2)} Extracting from ${file}...`);
+        const rawMessages = extractMessages(data, {
+          marker,
+        }).map(m => ({ ...m, file }));
+        if (hasOutput) console.log(`...found ${rawMessages.length}`);
+        return rawMessages;
+      })
+    )
+  );
 
 /**
- * Takes the code and yields all messages from code using the babylon plugin
- * (which parses stringified code to a specific object format from which all sorts of expressions can be retrieved)
- * @param {string} code
+ * Reads files in provided directory and extracts messages;
+ * then parses these in the correct format and writes them to a (JSON) file for the provided locale
+ * @param {string} srcPath
+ * @param {string} defaultLocale
+ * @param {string} targetPath
  * @param {object} options
  */
-const extract = (code, options) => {
-  const { marker, keyLoc = 0 } = options;
+const extract = (srcPath, defaultLocale, targetPath, options) =>
+  recursiveReaddir(srcPath)
+    .then(files => {
+      if (options.output) console.log(`${statusMsg(1)} Reading files...`);
+      return getMessagesFromFiles(files.filter(isJSFile), options.funcName, options.output);
+    })
+    .then(results => {
+      const json = parseMessages(results, defaultLocale);
+      if (options.output) console.log(`${statusMsg(3)} Writing file...`);
 
-  const ast = parse(code, {
-    sourceType: 'module',
-
-    // Enable all the plugins
-    plugins: [
-      'jsx',
-      'flow',
-      'asyncFunctions',
-      'classConstructorCall',
-      'doExpressions',
-      'trailingFunctionCommas',
-      'objectRestSpread',
-      'decorators',
-      'classProperties',
-      'exportExtensions',
-      'exponentiationOperator',
-      'asyncGenerators',
-      'functionBind',
-      'functionSent',
-      'dynamicImport',
-    ],
-  });
-
-  const messages = [];
-  const ignoredLines = [];
-
-  // Look for messages in the comments.
-  ast.comments.forEach(comment => {
-    let match = commentRegExp.exec(comment.value);
-    if (match) {
-      messages.push({
-        key: match[1].trim(),
-        loc: comment.loc,
-      });
-    }
-
-    // Check for ignored lines
-    match = commentIgnoreRegExp.exec(comment.value);
-    if (match) {
-      ignoredLines.push(comment.loc.start.line);
-    }
-  });
-
-  // Look for messages in the source code.
-  traverse(ast, {
-    CallExpression(path) {
-      const { node } = path;
-
-      if (ignoredLines.includes(node.loc.end.line)) {
-        // Skip ignored lines
-        return;
-      }
-
-      const { callee: { name, type } } = node;
-
-      if ((type === 'Identifier' && name === marker) || path.get('callee').matchesPattern(marker)) {
-        const message = getMessage(
-          keyLoc < 0 ? node.arguments[node.arguments.length + keyLoc] : node.arguments[keyLoc]
-        );
-        const options = getOptions(node.arguments[keyLoc + 1]);
-
-        if (message) {
-          messages.push({
-            message,
-            options,
-            loc: node.loc,
-          });
-        }
-      }
-    },
-  });
-
-  return messages;
-};
+      return writeFile(`${targetPath || process.cwd()}/${defaultLocale}.json`, json);
+    })
+    .then(path => console.log(`${successMsg}I18n messages saved to "${path}"!`))
+    .catch(error => console.log(errorMsg + error));
 
 module.exports = extract;

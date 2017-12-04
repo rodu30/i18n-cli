@@ -23,6 +23,7 @@
     "babel-traverse": "^6.26.0",
     "babylon": "^6.18.0",
     "chalk": "^2.3.0",
+    "cli-table": "^0.3.1",
     "commander": "^2.12.1",
     "recursive-readdir": "^2.2.1"
   },
@@ -42,7 +43,11 @@
       "sourceType": "script"
     },
     "extends": "react-app",
-    "plugins": ["react", "jsx-a11y", "import"],
+    "plugins": [
+      "react",
+      "jsx-a11y",
+      "import"
+    ],
     "env": {
       "node": true,
       "es6": true
