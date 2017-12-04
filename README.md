@@ -12,13 +12,13 @@ Command-line interface to extract and localize strings added to your code with
 Add CLI to your project:
 
 ```bash
-$ npm install --save git+ssh://git@github.com:rodu30/i18n-scanner.git
+$ npm install --save git+ssh://git@github.com:rodu30/i18n-cli.git
 ```
 
 Then install CLI globally:
 
 ```bash
-$ cd node_modules/i18n-scanner && npm install -g
+$ cd node_modules/i18n-cli && npm install -g
 ```
 
 Now the `i18n` commands can be called from everywhere.

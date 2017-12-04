@@ -1,13 +1,4 @@
-/**
- * Generates a key from a given message
- * @param {string} message
- * @returns {string} generated key
- */
-// TODO: should be imported from i18n-kit
-const generateKey = message => {
-  // TODO: add more RegEx to remove special characters + make keys shorter (= better performance)
-  return message.toLowerCase().replace(/ /g, '_');
-};
+const { generateKeyFromMessage } = require('i18n-kit');
 
 /**
  * Reduces message array to the final format and deals with duplicates;
@@ -54,7 +45,7 @@ const clear = (messages, defaultLocale) =>
     .map(({ message, file, loc, options = {} }) => {
       const { description, messageLocale } = options;
       return {
-        key: generateKey(message),
+        key: generateKeyFromMessage(message),
         message,
         messageLocale,
         file,
