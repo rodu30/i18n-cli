@@ -1,15 +1,12 @@
 /**
- * Generates a key from a given message and an optional namespace string
+ * Generates a key from a given message
  * @param {string} message
- * @param {string} namespace
  * @returns {string} generated key
  */
 // TODO: should be imported from i18n-kit
-const generateKey = (message, namespace) => {
-  const key = message.toLowerCase().replace(/ /g, '_');
+const generateKey = message => {
   // TODO: add more RegEx to remove special characters + make keys shorter (= better performance)
-  if (namespace) return namespace.toLowerCase().concat('.', key);
-  return key;
+  return message.toLowerCase().replace(/ /g, '_');
 };
 
 /**
