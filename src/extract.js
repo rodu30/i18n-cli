@@ -1,6 +1,6 @@
 const recursiveReaddir = require('recursive-readdir');
 
-const extractMessages = require('./extractMessages');
+const findInCode = require('./findInCode');
 const parseMessages = require('./parseMessages');
 const { writeFile, readFile } = require('./fileIO');
 const { errorMsg, statusMsg, successMsg } = require('./formattedOutput');
@@ -17,18 +17,18 @@ const isJSFile = filename => {
 
 /**
  * Extracts all messages and it's options that are passed as argument to a function
- * with the provided name (default is 'i18n.translateMessage'),
+ * with the provided name (default is 'i18n.m'),
  * returns an array of arrays for every file as promise
  * @param {array} files array of filenames within this directory
  * @param {string} marker name of the searched function
  * @returns {array} raw messages
  */
-const getMessagesFromFiles = (files, marker = 'i18n.translateMessage', hasOutput) =>
+const getMessagesFromFiles = (files, marker = 'i18n.m', hasOutput) =>
   Promise.all(
     files.map(file =>
       readFile(file).then(data => {
         if (hasOutput) console.log(`${statusMsg(2)} Extracting from ${file}...`);
-        const rawMessages = extractMessages(data, {
+        const rawMessages = findInCode(data, {
           marker,
         }).map(m => ({ ...m, file }));
         if (hasOutput) console.log(`...found ${rawMessages.length}`);

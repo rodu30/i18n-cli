@@ -52,7 +52,7 @@ const commentIgnoreRegExp = /i18n-extract-disable-line/;
  * @param {string} code
  * @param {object} options
  */
-const extractMessages = (code, options) => {
+const findInCode = (code, options) => {
   const { marker, keyLoc = 0 } = options;
 
   const ast = parse(code, {
@@ -130,4 +130,4 @@ const extractMessages = (code, options) => {
   return messages;
 };
 
-module.exports = extractMessages;
+module.exports = findInCode;
