@@ -660,7 +660,7 @@ hosted-git-info@^2.1.4:
 
 "i18n-kit@git+ssh://git@github.com:rodu30/i18n-kit.git":
   version "0.1.0"
-  resolved "git+ssh://git@github.com:rodu30/i18n-kit.git#739dbc67f2201403c8926c32ddee96ccad54d162"
+  resolved "git+ssh://git@github.com:rodu30/i18n-kit.git#adb64a99b56daeb4fba45b272363deeda3f10340"
 
 iconv-lite@^0.4.17, iconv-lite@~0.4.13:
   version "0.4.19"

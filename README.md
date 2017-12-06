@@ -15,7 +15,18 @@ Add CLI to your project:
 $ npm install --save git+ssh://git@github.com:rodu30/i18n-cli.git
 ```
 
-Then install CLI globally:
+### Run locally
+
+All executables for a project are saved in `<your app>/node_module/.bin`. Run the local installation
+of the **i18n-cli** like this:
+
+```bash
+$ node_modules/.bin/i18n [options] [command]
+```
+
+### Install globally
+
+It is convenient to install the CLI globally to use it like any other command line tool:
 
 ```bash
 $ cd node_modules/i18n-cli && npm install -g
@@ -23,8 +34,20 @@ $ cd node_modules/i18n-cli && npm install -g
 
 Now the `i18n` commands can be called from everywhere.
 
-In order to automize the tasks in your project, add the **i18n-cli** commands to the script in your
+### Add to scripts
+
+In order to automize the tasks, add your preferred **i18n-cli** commands to the script in your
 project's `package.json`.
+
+Example:
+
+```json
+{
+  "scripts": {
+    "l10n": "i18n ext -o src en-US src/i18n && i18n merge src/i18n/en-US.json src/i18n"
+  }
+}
+```
 
 ## Usage
 
