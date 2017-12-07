@@ -25,7 +25,6 @@
     "chalk": "^2.3.0",
     "cli-table": "^0.3.1",
     "commander": "^2.12.1",
-    "i18n-kit": "git+ssh://git@github.com:rodu30/i18n-kit.git",
     "recursive-readdir": "^2.2.1"
   },
   "devDependencies": {

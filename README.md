@@ -44,7 +44,8 @@ Example:
 ```json
 {
   "scripts": {
-    "l10n": "i18n ext -o src en-US src/i18n && i18n merge src/i18n/en-US.json src/i18n"
+    "extract":
+      "node_modules/.bin/i18n ext -o src en-US src/messages && node_modules/.bin/i18n merge src/messages/en-US.json src/messages"
   }
 }
 ```
