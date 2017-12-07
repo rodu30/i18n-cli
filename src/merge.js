@@ -86,9 +86,10 @@ const getMerged = (srcData, targetData) => {
       };
       missingCounter += 1;
     } else {
-      // If key is in file remove flag (if any)
+      // If key is in file remove flag (if any) and overwrite contexts (in case text was moved)
       targetMsgs[key] = {
         ...targetMsgs[key],
+        contexts: value.contexts,
         flag: undefined,
       };
     }
