@@ -1,7 +1,6 @@
 # i18n-cli
 
-Command-line interface to extract and localize strings added to your code with
-[i18n-kit](https://github.com/rodu30/i18n-kit/).
+Command-line interface to extract and localize strings added to your code with the [**i18n-kit**](https://github.com/rodu30/i18n-kit/).
 
 ## Prerequisites
 
@@ -44,8 +43,7 @@ Example:
 ```json
 {
   "scripts": {
-    "extract":
-      "node_modules/.bin/i18n ext -o src en-US src/messages && node_modules/.bin/i18n merge src/messages/en-US.json src/messages"
+    "extract": "node_modules/.bin/i18n ext -o src en-US src/messages"
   }
 }
 ```
@@ -90,7 +88,7 @@ actions (see below).
   when file with the same name exists it will be overwritten)
 * Options:
 
-  * `--no-output`: don't show extracting progress
+  * `--no-output`: don't show progress
   * `--func-name <function name>`: custom marker to search for
 
 #### Examples
@@ -135,17 +133,45 @@ Results in:
 
 ### Merge messages
 
-If the default text is persisted, you want to localize your app and add translation for your
-supported languages and locales. In order to make this easier you can use the `merge` command. The
-script reads your current defaults and compares them to the existing translations and checks if
-translations are missing or are no longer used in the source code. Alternatively the script creates
-a new empty translation template.
+After the default texts are saved you want to actually localize your app and add translations for your
+supported languages. In order to make this easier you can use the `merge` command. The
+script reads your current defaults and creates
+a new empty translation template where you simply add the translated text.
+
+Example:
+
+```bash
+$ i18n merge src/i18n/en-US.json src/i18n de-CH.json
+Success I18n messages saved to new locale "src/i18n/de-CH.json"!
+```
+
+```json
+{
+  "this_is_{num1}_test_for_{num2}.": {
+    "message": null,
+    "contexts": [{ "file": "src/App.js", "line": 55, "column": 6 }],
+    "flag": "MISSING"
+  },
+  "this_is_another_test.": {
+    "message": null,
+    "contexts": [
+      { "file": "src/App.js", "line": 61, "column": 22, "description": "foo" },
+      { "file": "src/App.js", "line": 67, "column": 33, "description": "bar" },
+      { "file": "src/App.js", "line": 71, "column": 34, "description": "bar" }
+    ],
+    "flag": "MISSING"
+  }
+}
+```
+
+If you already have some translation files in the directory the script compares them to the default messages and checks which
+translations are missing and which are no longer used in the source code.
 
 #### Arguments
 
 * `source file`: file name (and path) of the defaults
 * `target path`: directory where to search for the translation file(s)
-* `target file` (optional): additional file name to look for or to create in the path (use if you
+* `target file` (optional): specific file name to look for in the target path (use if you
   want to merge a specific file or if you want to create a new template)
 * Options:
   * `--report`: display a report after merging
@@ -185,31 +211,7 @@ Success I18n messages merged with "src/i18n/de-DE.json"!
 Success I18n messages merged with "src/i18n/en-GB.json"!
 ```
 
-Create new:
 
-```bash
-$ i18n merge src/i18n/en-US.json src/i18n de-CH.json
-Success I18n messages saved to new locale "src/i18n/de-CH.json"!
-```
-
-```json
-{
-  "this_is_{num1}_test_for_{num2}.": {
-    "message": null,
-    "contexts": [{ "file": "src/App.js", "line": 55, "column": 6 }],
-    "flag": "MISSING"
-  },
-  "this_is_another_test.": {
-    "message": null,
-    "contexts": [
-      { "file": "src/App.js", "line": 61, "column": 22, "description": "foo" },
-      { "file": "src/App.js", "line": 67, "column": 33, "description": "bar" },
-      { "file": "src/App.js", "line": 71, "column": 34, "description": "bar" }
-    ],
-    "flag": "MISSING"
-  }
-}
-```
 
 ## Development
 
