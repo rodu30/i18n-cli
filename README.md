@@ -43,7 +43,7 @@ Example:
 ```json
 {
   "scripts": {
-    "extract": "node_modules/.bin/i18n ext -o src en-US src/messages"
+    "extract": "node_modules/.bin/i18n extract -o src en-US src/messages"
   }
 }
 ```
