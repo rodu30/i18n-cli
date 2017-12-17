@@ -4,8 +4,9 @@
  * @returns {string}
  */
 const generateKey = message => {
-  // TODO: add more RegEx to remove special characters + make keys shorter (= better performance)
-  return message.toLowerCase().replace(/ /g, '_');
+  // NOTE: Using shorter keys (e.g. hashed values) can result in faster read times.
+  //       However as long as there are no perf issues we will simply use the message as key.
+  return message;
 };
 
 /**

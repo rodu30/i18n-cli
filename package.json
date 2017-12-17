@@ -1,6 +1,6 @@
 {
   "name": "i18n-cli",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Command-line tool for extracting translations from files.",
   "main": "src/index.js",
   "bin": {
@@ -43,11 +43,7 @@
       "sourceType": "script"
     },
     "extends": "react-app",
-    "plugins": [
-      "react",
-      "jsx-a11y",
-      "import"
-    ],
+    "plugins": ["react", "jsx-a11y", "import"],
     "env": {
       "node": true,
       "es6": true
