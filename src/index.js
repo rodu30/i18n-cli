@@ -14,7 +14,7 @@ program
     'Extracts messages from all code in a dir or a file and writes to JSON file (creates a new one if not existing)'
   )
   .option('-o, --no-output', 'No status output is displayed')
-  .option('-f, --func-name <funcName>', 'Custom marker for search (default: i18n.translateMessage)')
+  .option('-f, --func-name <funcName>', 'Custom marker for search (default: i18n.m)')
   .action(extract);
 
 program
