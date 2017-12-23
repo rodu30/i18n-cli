@@ -5,7 +5,7 @@ const program = require('commander');
 const extract = require('./extract');
 const merge = require('./merge');
 
-program.version('0.1.0');
+program.version('0.1.1');
 
 program
   .command('extract <srcPath> <defaultLocale> [targetPath]')
