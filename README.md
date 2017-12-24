@@ -88,8 +88,8 @@ actions (see below).
   when file with the same name exists it will be overwritten)
 * Options:
 
-  * `--no-output`: don't show progress
-  * `--func-name <function name>`: custom marker to search for
+  * `-o, --no-output`: don't show progress
+  * `-f, --func-name <function name>`: custom marker to search for
 
 #### Examples
 
@@ -117,11 +117,11 @@ Results in:
 
 ```json
 {
-  "this_is_{num1}_test_for_{num2}.": {
+  "This is {num1} test for {num2}.": {
     "message": "This is {num1} test for {num2}.",
     "contexts": [{ "file": "src/App.js", "line": 55, "column": 6 }]
   },
-  "this_is_another_test.": {
+  "This is another test.": {
     "message": "This is another test.",
     "contexts": [
       { "file": "src/App.js", "line": 61, "column": 22, "description": "foo" },
@@ -147,12 +147,12 @@ Success I18n messages saved to new locale "src/i18n/de-CH.json"!
 
 ```json
 {
-  "this_is_{num1}_test_for_{num2}.": {
+  "This is {num1} test for {num2}.": {
     "message": null,
     "contexts": [{ "file": "src/App.js", "line": 55, "column": 6 }],
     "flag": "MISSING"
   },
-  "this_is_another_test.": {
+  "This is another test.": {
     "message": null,
     "contexts": [
       { "file": "src/App.js", "line": 61, "column": 22, "description": "foo" },
@@ -174,7 +174,7 @@ translations are missing and which are no longer used in the source code.
 * `target file` (optional): specific file name to look for in the target path (use if you
   want to merge a specific file or if you want to create a new template)
 * Options:
-  * `--report`: display a report after merging
+  * `-r, --report`: display a report after merging
 
 #### Examples
 
@@ -211,7 +211,60 @@ Success I18n messages merged with "src/i18n/de-DE.json"!
 Success I18n messages merged with "src/i18n/en-GB.json"!
 ```
 
+### Import/export messages
 
+If you are using an external translation platform (e.g. [PhraseApp](https://phraseapp.com/)) you can convert the messages to a format which can be uploaded to the platform and back. Currently we only support [React-Intl Simple JSON](https://phraseapp.com/docs/guides/formats/react-intl-simple-json/) which is supported broadly. However more formats could be added in the future.
+
+#### Arguments
+
+* `source path`: directory where the code sits
+* `target path` (optional): directory where to save the converted files (default is current directory); the script will use the same filenames
+* Options:
+
+  * `-o, --out`: writes to external format (default)
+  * `-i, --in`: writes to internal format
+
+Example "out":
+
+```bash
+$ i18n convert -o src/i18n src/external-i18n/out
+Success I18n messages copied to "src/external-i18n/out/de-DE.json"!
+Success I18n messages copied to "src/external-i18n/out/en-US.json"!
+```
+
+results in:
+
+```json
+{
+  "This is {num1} test for {num2}.": "This is {num1} test for {num2}.",
+  "This is another test.": "This is another test."
+}
+```
+
+Example "in":
+
+```bash
+$ i18n convert -i src/external-i18n/in src/i18n
+Success I18n messages copied to "src/messages/de-DE.json"!
+```
+
+results in:
+
+```json
+{
+  "This is {num1} test for {num2}.": {
+    "message": "Dies ist {num1} Beispiel für {num2}.",
+    "contexts": []
+  },
+  "This is another test.": {
+    "message": null,
+    "contexts": [],
+    "flag": "MISSING"
+  }
+}
+```
+
+> Note: As you can see in the example above the context is lost after passing the messages to an external platform (it is currently not supported). But you can retrieve the context and current status if you merge (see above) the translations once again with the default messages - of course only if the translation`s default is still used in the code.
 
 ## Development
 

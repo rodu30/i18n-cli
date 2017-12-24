@@ -72,7 +72,6 @@ const clear = (messages, defaultLocale) =>
  * @param {string} defaultLocale
  * @returns {object} messages JSON
  */
-// TODO: set or ignore namespace ??
 const parseMessages = (rawMessages, defaultLocale) =>
   JSON.stringify(format(clear(rawMessages, defaultLocale)));
 
