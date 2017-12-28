@@ -36,14 +36,14 @@ Now the `i18n` commands can be called from everywhere.
 ### Add to scripts
 
 In order to automize the tasks, add your preferred **i18n-cli** commands to the script in your
-project's `package.json`.
+project's `package.json`. You don't need to specify the whole path to the `.bin` directory.
 
 Example:
 
 ```json
 {
   "scripts": {
-    "extract": "node_modules/.bin/i18n ext -o src en-US src/messages"
+    "extract": "i18n ext -o src en-US src/messages"
   }
 }
 ```
