@@ -2,13 +2,20 @@
 
 Command-line interface to extract and localize strings added to your code with the [**i18n-kit**](https://github.com/rodu30/i18n-kit/).
 
+Content:
+
+1. [Prerequisites](#prerequisites)
+2. [Installation](#installation)
+3. [Usage](#usage)
+4. [Acknowledgment](#acknowledgment)
+
 ## Prerequisites
 
 [Node.js](https://nodejs.org/en/)
 
 ## Installation
 
-Add CLI to your project:
+Add the CLI to your project:
 
 ```bash
 $ npm install --save git+ssh://git@github.com:rodu30/i18n-cli.git
@@ -82,14 +89,14 @@ actions (see below).
 
 #### Arguments
 
-* `source path`: directory where the code sits
-* `default locale`: name of the locale or language of the default text
-* `target path` (optional): directory where to save the messages-file (default is current directory;
+- `source path`: directory where the code sits
+- `default locale`: name of the locale or language of the default text
+- `target path` (optional): directory where to save the messages-file (default is current directory;
   when file with the same name exists it will be overwritten)
-* Options:
+- Options:
 
-  * `-o, --no-output`: don't show progress
-  * `-f, --func-name <function name>`: custom marker to search for
+  - `-o, --no-output`: don't show progress
+  - `-f, --func-name <function name>`: custom marker to search for
 
 #### Examples
 
@@ -169,12 +176,12 @@ translations are missing and which are no longer used in the source code.
 
 #### Arguments
 
-* `source file`: file name (and path) of the defaults
-* `target path`: directory where to search for the translation file(s)
-* `target file` (optional): specific file name to look for in the target path (use if you
+- `source file`: file name (and path) of the defaults
+- `target path`: directory where to search for the translation file(s)
+- `target file` (optional): specific file name to look for in the target path (use if you
   want to merge a specific file or if you want to create a new template)
-* Options:
-  * `-r, --report`: display a report after merging
+- Options:
+  - `-r, --report`: display a report after merging
 
 #### Examples
 
@@ -217,12 +224,12 @@ If you are using an external translation platform (e.g. [PhraseApp](https://phra
 
 #### Arguments
 
-* `source path`: directory where the code sits
-* `target path` (optional): directory where to save the converted files (default is current directory); the script will use the same filenames
-* Options:
+- `source path`: directory where the code sits
+- `target path` (optional): directory where to save the converted files (default is current directory); the script will use the same filenames
+- Options:
 
-  * `-o, --out`: writes to external format (default)
-  * `-i, --in`: writes to internal format
+  - `-o, --out`: writes to external format (default)
+  - `-i, --in`: writes to internal format
 
 Example "out":
 
@@ -276,3 +283,7 @@ Go to the directory with the source code and:
 ```bash
 $ npm link
 ```
+
+## Acknowledgment
+
+This app was created as part of a graduation project at [Beuth University of Applied Sciences Berlin](https://www.beuth-hochschule.de/) and [Meplato GmbH](https://meplato.com/).
